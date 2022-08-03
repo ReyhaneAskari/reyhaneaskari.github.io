@@ -1,0 +1,465 @@
+<!-- Code partly obtained from Deep playground
+at https://github.com/tensorflow/playground with Apache License 2.0 -->
+<!DOCTYPE html>
+<!-- saved from url=(0032)https://openai.com/blog/GradientStarvation/ -->
+<html lang="en" class="js"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-G2956GM9YZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-G2956GM9YZ');
+  </script>
+  <!-- <script async="" src="./LEAD_files/js"></script> -->
+
+  <title>LEAD: Least-Action Dynamics for Min-Max Optimization</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" type="text/css" href="./LEAD_files/all.css">
+
+  <!-- <link rel="stylesheet" href="bundle.css" type="text/css"> -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500|Material+Icons" rel="stylesheet" type="text/css">
+  <script src="lib.js"></script>
+  <script src="https://d3js.org/d3.v3.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.css" integrity="sha384-t5CR+zwDAROtph0PXGte6ia8heboACF9R5l/DiY+WZ3P2lxNgvJkQk5n7GPvLMYw" crossorigin="anonymous">
+
+  <!-- The loading of KaTeX is deferred to speed up page rendering -->
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/katex.min.js" integrity="sha384-FaFLTlohFghEIZkw6VGwmf9ISTubWAVYW8tG8+w2LAIftJEULZABrF9PPFv+tVkH" crossorigin="anonymous"></script>
+
+  <!-- To automatically render math in text elements, include the auto-render extension: -->
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.0/dist/contrib/auto-render.min.js" integrity="sha384-bHBqxz8fokvgoJ/sc17HODNxa42TlaEhB+w8ZJXTc2nZf1VgEaFZeZvT4Mznfz0v" crossorigin="anonymous"
+      onload="renderMathInElement(document.body);"></script>
+<!--   <script type="text/javascript" id="MathJax-script" async
+   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>-->
+
+<!--   <script src="data.js"></script>
+  <script src="plotly-latest.min.js"></script>
+  <script src="bundle.js"></script>
+  <script src="analytics.js"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script> -->
+
+</head>
+
+<body class="browser-chrome os-mac-os engine-webkit">
+  
+<article class="post" id="post-GradientStarvation">
+  
+  <header class="post-header post-header--cover bg-light-warm-gray bg-cover">
+  <div class="row py-10/12">
+  </div>
+</nav>
+
+
+  
+  <div class="container mt-10 mb-2 pb-1">
+    <div class="row">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-6 col-xl-6 order-md-1">
+            <div class="sticky sticky-top mt-ngutter pt-gutter">
+
+          <div id="main-part" class="l--page">
+
+            <!-- Output Column -->
+            <div class="column output">
+              <div id="heatmap" style="float: center"></div>
+            </div>
+
+            <!-- curve Column -->
+            <div class="column curve">
+<!--               <img id="panel_img" src="LEAD_files/nyt.jpg" width="100%"></img>
+              <div id="panel"></div> -->
+
+              <div class="wrapper">
+                <img id="panel_img" src="LEAD_files/panel.png" width="100%"></img>
+                <div id="panel"></div>
+                <div id="panel2"></div>
+                <div id="panel3"></div>
+                <div id="panel4"></div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div id="main-part2" class="l--page">
+
+            <!-- Features Column -->
+            <div class="column features">
+              <div id="network"></div>
+                <!-- <svg id="svg" width="0" height="0"></svg> -->
+
+
+            </div>
+
+          </div>
+
+
+            </div>
+          </div>
+
+          <div class="col-12 col-md">
+            <div class="h-100 w-md-10/12 w-xl-11/12 max-width-xnarrow">
+              <div class="h-100 d-flex flex-column justify-content-between">
+                  <div id='abstract'>
+                    <h1 class="balance-text  mb-0.75" style="">LEAD: Least-Action Dynamics for Min-Max Optimization</h1>
+                      <div class="post-excerpt mb-1 js-excerpt-container js-widow"><p>
+                          The development of efficient optimization
+                          methods for games is an active area of research with a timely impact on adversarial formulations including GANs. Existing methods for this type of problem typically
+                          employ intuitive, carefully hand-designed mechanisms for controlling the problematic rotational dynamics commonly encountered during optimization. In this work, we 
+                          cast min-max optimization as a physical system. We propose LEAD (Least-Action Dynamics), an optimizer that uses the principle of least-action from physics to
+                          discover an efficient optimizer. We provide convergence analysis and showcase its superiority in GAN training. </p></div>
+                      <a href="https://arxiv.org/abs/2010.13846" class="btn btn-padded" target="_blank" rel="noopener">Paper</a>
+                      <a href="https://github.com/ReyhaneAskari/Least_action_dynamics_minmax" class="btn btn-padded" target="_blank" rel="noopener">Code</a>
+                  </div>
+                    <div class="post-header-date small-copy color-fg-60 mb-1 mb-md-10/12">
+    <time datetime="2020-11-01">April, 2021</time>
+    <div class=""> <a href="https://reyhaneaskari.github.io/"> Reyhane Askari Hemmat</a><sup>*</sup>, <a href="https://amartya-mitra.myportfolio.com/home">Amartya Mitra</a><sup>*</sup>, <a href="https://www.guillaumelajoie.com/"> Guillaume Lajoie</a>, <a href="http://mitliagkas.github.io/">Ioannis Mitliagkas</a></div>
+    <div class=""><sup>*</sup> Equal contribution.</div>
+  </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+</header>
+
+<section class="container">
+<section class="content">
+
+<h2 id="try">Warm Up!</h2>
+<p>
+  To begin, let us first take note of a central principle governing the physical world around us, namely the principle of least action (or more generally stationary action).
+</p>
+<aside class="aside-left">
+<p class="side-note mb-0.25">
+The action \( A\), typically has the following form,
+   <p>$$ A = \int (K(x, \dot{x}, t) - U(x, \dot{x}, t)) dt ,$$ </p>
+where \(K \) is the kinetic energy and \(U \) is the potential energy.
+</p>
+</aside>
+<p>
+   The principle states that the movement of physical systems, from the falling of a ball to the motion of electrons in an atom, is guided by an entity called the action (\( A\)). Specifically, the trajectory of motion of such natural systems is such that it minimizes (or extremizes) \( A\). To exemplify this point, let us consider a visual example! Think of Newton throwing an apple in the air. We know that the apple does not just take any random path to reach the ground,
+</p>
+<img src="LEAD_files/sad.png"  width="50%" class="center"></img>
+
+<div class='footnote'><a href="https://katherinepaus.wordpress.com/2013/09/24/physics-at-a-glance/"> Image source</a>. </div>
+<p>
+Rather the apple follows a specific <i>projectile</i> motion,
+</p>
+<img src="LEAD_files/happy.png"  width="50%" class="center"></img>
+
+<p>
+Incidentally, as it can be easily checked, the principle of least action applied in this context states that the trajectory of the apple is given by the solution of the equation, 
+</p>
+<aside class="aside-right">
+<p class="side-note mb-0.25">
+   Acceleration is the first derivative of the velocity (\(v \)), \(a = {d v}/{dt} = \dot{v}\), and the second derivative of the position of the particle(\(x\)), \(a = {d^2 x}/{dt^2} = \ddot{x} \).
+</p>
+</aside>
+<p>$$\vec{F}_{gravity} = m \ a,$$ </p>
+
+<p>
+where \( F_{gravity} \) is the (downwards) gravitational force acting on the apple, \(m \) is the mass of the apple and \(a \) its acceleration. This equation is commonly known as Newton’s 2nd Law, and can be interpreted as the trajectory of motion of a physical system under a force F, as outlined by the least action principle.
+</p>
+<h2 id="try"> From Physics to Optimization</h2>
+
+<aside class="aside-left">
+<p class="side-note mb-0.25">
+A force is conservative if it can be expressed as the gradient of a single function, \( - \nabla f(x) \).
+</p>
+</aside>
+<p>
+Now, to bring to light how the dynamics of physical systems such as that of the apple above, can be connect with machine learning optimization, we note that for <i>conservative</i> forces Newton’s 2nd Law takes the form,
+</p>
+<p>$$ 
+- \nabla f(x) = m \ddot{x}, 
+$$ 
+</p>
+<aside class="aside-right">
+<p class="side-note mb-0.25">
+An <a href="http://www.maths.lth.se/na/courses/FMN050/media/material/part14.pdf">Explicit Euler discretization</a>  of \(- \nabla f(x) = m \ddot{x}\) is, 
+$$x_{k+1} = x_k + \beta (x_k − x_{k−1}) − \eta \nabla_x L(x_k)$$
+where \(\beta\) is the momentum and \(\eta\) is the step-size.
+</p>
+</aside>
+<p> 
+where \(f(x) \) is the loss function. Although this equation might seem unfamiliar, it is the continuous-time dynamics of a popular optimization algorithm in machine learning, i.e., gradient descent with momentum.
+</p>
+<p>
+Taking inspiration from this, in the following, we set out to determine a corresponding physical system which can provide an efficient optimizer in the context of two-player zero-sum games!
+</p>
+
+<!-- <p>
+To begin, let us first take note of a central principle governing the physical world around us, namely the principle of least action
+
+Before we start, let's cover a couple of concepts from physics.
+From classical mechanics, we know that Newton's second law determines the path that a particle follows,
+</p>
+<aside class="aside-right">
+<p class="side-note mb-0.25">
+   Acceleration is the first derivative of the velocity (\(v \)), \(a = {d v}/{dt} = \dot{v}\), and the second derivative of the position of the particle(\(x\)), \(a = {d^2 x}/{dt^2} = \ddot{x} \).
+</p>
+</aside>
+<p>$$\vec{F} = m \ a ,$$</p>
+<p>
+where \(\vec{F} \)  is the sum of all the forces that are applied to the particle, \(m \) is its mass and \(a \) is its acceleration.
+<p>
+The <a href="https://en.wikipedia.org/wiki/Stationary_Action_Principle" >Principle of Least Action</a> (or the Stationary Action) tells us that by knowing the initial position and velocity of a particle, Newton's equation of motion generates "the particle's trajectory," and the unique path that the particle takes is the one that minimizes a quantity called the action \( S\). Intuitively, it means that of all possible paths, the path that nature selects for a particle is the one that minimizes the action. , where \(\vec{F} \)  is the sum of all the forces that are applied to the particle, \(m \) is its mass and \(a \) is its acceleration.
+
+
+<aside class="aside-left">
+<p class="side-note mb-0.25">
+The action \( S\), typically has the following form,
+   <p>$$ S = \int (K(x, \dot{x}, t) - U(x, \dot{x}, t)) dt ,$$ </p>
+where \(K \) is the kinetic energy and \(U \) is the potential energy.
+</p>
+</aside>
+</p>
+<p>      
+Let's try a simple example! Think of Newton throwing an apple in the air. We know that the apple does not just take any random path to reach the ground,
+<p/>
+<img src="LEAD_files/sad.png"  width="50%" class="center"></img>
+
+<div class='footnote'><a href="https://katherinepaus.wordpress.com/2013/09/24/physics-at-a-glance/"> Image source</a>. </div>
+
+<p>
+<p>One can use Newton's second law and see that the equation of motion for the apple has the form of \(\vec{F}_{gravity} = m \ a \).
+</p>
+
+<img src="LEAD_files/happy.png"  width="50%" class="center"></img>
+<p>
+In this example, the apple moves in a direction that decreases its potential energy. Similarly, in machine learning, to decrease a loss function, we move along the direction of gradients,
+</p>
+<p>$$ 
+- \nabla f(x) = m \ddot{x}, 
+$$ 
+</p>
+<aside class="aside-right">
+<p class="side-note mb-0.25">
+An <a href="http://www.maths.lth.se/na/courses/FMN050/media/material/part14.pdf">Explicit Euler discretization</a>  of \(- \nabla f(x) = m \ddot{x}\) is, 
+$$x_{k+1} = x_k + \beta (x_k − x_{k−1}) − \eta \nabla_x L(x_k)$$
+where \(\beta\) is the momentum and \(\eta\) is the step-size.
+</p>
+</aside>
+<p> 
+where \(f(x) \) is the loss function. Although this equation might seem unfamiliar, it is the continuous-time dynamics of the most common optimization algorithm in machine learning, i.e., gradient descent with momentum.
+</p>
+<p>
+Many challenges arise in the optimization of Machine Learning algorithms. Our work's contribution is to design a physical framework that facilitates the optimization of specific ML formulations such as games and GANs. In the following sections, we model game optimization as a physical system and try to tackle some of its challenges with tools from physics.
+</p>
+ -->
+<h2 id="try">Games</h2>
+<p>
+Multi-objective or game optimization is a common ML formulation observed in GANs, multi-task learning, and multiagent settings in RL. In this work, we aim to tackle the following min-max zero-sum game,
+</p>
+<p>
+  $$ \min_x \max_y f(x, y),$$
+</p>
+<p>
+where \(f(x,y)\) is the loss function and player one only controls \(x\) and player two only controls \(y\). 
+<br>
+It has been observed that gradient descent-ascent performs poorly in game optimization. Specifically, we observe rotational dynamics around the Equilibrium point of the game, which slows down convergence. A simple example of the above formulation is the bilinear game where \(f(x, y) = xy \) . The bilinear game has been extensively studied in literature as it allows us to study game optimization in a simple setup. At the same time, it shares many of the properties of more complex systems. In this game, gradient descent ascent follows,
+  </p>
+  <p>$$
+  x_{k+1} = x_k - \eta \nabla_x f(x_k, y_k) = x_k - \eta y_k$$
+  $$
+  y_{k+1} = y_k + \eta \nabla_y f(x_{k}, y_k) = y_k + \eta x_{k}$$
+</p>
+
+<aside class="aside-right">
+<img src="LEAD_files/bilinear.png" class="svg_images"></img>
+<p class="side-note mb-0.25 svg_images"> Plot shows the dynamics in the x-y plane. Gradient descent-ascent on a bilinear game slowly diverges away from the Equilibrium \((0, 0) \).</p>
+</aside>
+
+<p>If we start somewhere around the Equilibrium point of this game (in this case \((0, 0)\)), the players will slowly diverge away from the Equilibrium. This problem has also been observed in GAN optimization [1].</p>
+<p>
+In the next section, we design a physical system that mimics game optimization properties and proposes mitigation based on the physical system to tackle the rotational dynamics.
+</p>
+
+<h2 id="try">The mechanics of Games </h2>
+<p>
+In order to model game optimization as a physical system, we need to model the dynamics of a particle in a 2-D plane that has the following equations of motion,
+</p>
+<p>
+$$\ddot{x} = -\nabla_x f(x,y)$$
+$$\ddot{y} = \nabla_y f(x,y)$$
+</p>
+
+<p>The first extension that would naturally come to mind is to model these dynamics similar to gradient descent with momentum. However, in that case, we need a single potential function (\(f(x, y)\)) which is simultaneously positive and negative. Now we know that this is impossible. To understand this in more details, see <a href="https://www.inference.vc/my-notes-on-the-numerics-of-gans/">this excellent blog post</a> on how two-player games are non-conservative dynamical systems. </p>
+<!-- <h3 id="try">Vortex Force </h3> -->
+<aside class="aside-left">
+<img src="LEAD_files/vor.png" class="svg_images" width="50%"></img>
+<p class="side-note mb-0.25 svg_images"> Vortex force</p>
+</aside>
+
+
+<aside class="aside-right">
+<img src="LEAD_files/vortex.png" class="svg_images" width="70%"></img>
+<p class="side-note mb-0.25 svg_images"> Divergence of the dynamics of a particle under the vortex force in the bilinear game.</p>
+</aside>
+<p>
+So the question persists, how can we model game dynamics as a physical system? Let's think about the properties of this system. We know that this system has rotational dynamics and diverges away from the optimum. One similar force in nature is the vortex force,
+</p>
+
+<p>
+$$m \ddot{x} = F_{vortex} = -\nabla_x f(x,y)$$
+$$m \ddot{y} = F_{vortex} = \nabla_y f(x,y)$$
+</p> 
+
+
+<p>On discretization, the above dynamics diverge in a bilinear game. This is in line with our observation of divergence of gradient descent-ascent with positive momentum in the bilinear games. So the vortex force does provide the main properties of the dynamics of gradient descent-ascent.
+<br>
+ Now we can easliy modify the dynamics by introducing new forces to the system. What we need is a counteracting force to curb the rotations. One of such is the magnetic force,
+</p>
+<p>
+$$ m \ \ddot{x} = F_{vortex} + F_{magnetic} =  -\nabla_x f(x,y) -2q(\nabla_{xy} f)\dot{y}$$
+$$ m \ \ddot{y} = F_{vortex} + F_{magnetic} =  \nabla_y f(x,y) 2q(\nabla_{xy} f)\dot{x}$$
+</p>
+<aside class="aside-left">
+<img src="LEAD_files/vortex_mag.png" class="svg_images" width="70%"></img>
+<p class="side-note mb-0.25 svg_images"> Divergence of the dynamics of a particle under the vortex and magnetic force in the bilinear game.</p>
+</aside>
+<p>
+where \(q\) is the charge of the particle.
+<br>
+The plot on the left shows that the magnetic force has curbed the dynamics towards the inside, but still, it's not enough for convergence. This is predictable from a physics perspective. The vortex force is known to increase the particle's speed over time[2], while the magnetic force is known not to cause any change to the speed of the particle. Hence, under the influence of simply the curl and magnetic forces, our particle will keep increasing in velocity over time, preventing it from convergence.
+</p>
+
+<aside class="aside-right">
+<img src="LEAD_files/all_forces.png" class="svg_images" width="70%"></img>
+<p class="side-note mb-0.25 svg_images"> Convergence of the dynamics of a particle under the vortex, magnetic and friction forces in the bilinear game.</p>
+</aside>
+<p>
+The last piece is to add some form of dissipation to decrease the velocity of the particle. So we introduce friction to the system, 
+</p>
+
+<p>
+$$ m \ \ddot{x} = F_{vortex} + F_{magnetic} + F_{friction} =  -\nabla_x f(x,y) -2q(\nabla_{xy} f)\dot{y} - \mu \dot{x}$$
+$$ m \ \ddot{y} = F_{vortex} + F_{magnetic} + F_{friction} =  \nabla_y f(x,y) + 2q(\nabla_{xy} f)\dot{x} - \mu \dot{y} $$
+</p>
+
+<p>
+where \(\mu\) is the friction coefficient. This time we see that the friction causes the particle to lose speed and converge! You can play with the interactive plot above to see the effect of the friction and magnetic forces.
+</p>
+
+<h2 id="try">LEAD </h2>
+<p>
+In the previous section, we modeled game optimization as a physical system for a bilinear problem. Using the Least Action Principle and Newton's 2nd law, we derived the particle's equations of motion in continuous time. However, in machine learning, we need discrete-time algorithms.  We can use a combination of explicit and implicit Euler method to discretize the system with all the forces,
+</p>
+
+<p>
+$$x_{k + 1} = x_k + \beta (x_k - x_{k-1}) - \eta \nabla_{x} f(x_k, y_k)
+        - \alpha \nabla_{xy}f(x_k, y_k) (y_k - y_{k-1}) $$
+$$y_{k + 1} = y_k + \beta (y_k - y_{k-1}) + \eta \nabla_{y} f(x_k, y_k)
+        + \alpha \nabla_{xy}f(x_k, y_k) (x_k - x_{k-1}) $$
+</p>
+
+<p>
+where \(\delta \) is the discretization step and \(\alpha = 2 {q} \delta, \beta = 1 - {\mu} \delta, \eta = {\delta}^2 \) are hyper-parameters dependent on \(\mu, q\) and \(\delta\). We refer to the above update rule as Least Action Dynamics (LEAD).
+<br>
+We theoretically study LEAD on the bilinear game and prove exponential (linear) convergence rate for continuous and discrete-time dynamics. You can check the details of the Lyapunov and Spectral Analysis in the paper.
+</p>
+
+<h2 id="try">From Bilinear Games to GANs</h2>
+<p>
+A natural next step for us is to validate this method in GANs. It is important to note that although the term \(\nabla_{xy}f(x_k, y_k)\) is second order, we do not need to compute it. Using auto-differentiable tools such as PyTorch and Tensorflow, \(\nabla_{xy}f(x_k, y_k) (y_k - y_{k-1}) \) can be computed directly with the cost of computing two gradients. So computationally, our method is exactly equivalent to extra-gradient on a large scale. 
+</p>
+<aside class="aside-right">
+<img src="LEAD_files/cifar.jpeg" class="svg_images" width="70%"></img>
+<p class="side-note mb-0.25 svg_images">A sample of generated images with LEAD on a ResNet.</p>
+</aside>
+<p>
+To move to GAN experiments, we took two steps. First, we implemented LEAD on top of ADAM, an adaptive optimizer commonly used in machine learning. Next, we test our method in a ResNet architecture. Our method obtains a competitive FID score of 10.49 and an inception score of 8.82. See Table below for comparison with several other methods,
+</p>
+<img src="LEAD_files/table.png" class="table"></img>
+<p> We compare in terms of both the FID and the inception score. Lower FID (or higher Inception Score), correspond to better sample quality. We have done other expirements and comparison with other methods that you can check their details in the paper. </p>
+
+
+<h2 id="try">Conclusion </h2>
+<p>
+In this work, we leverage tools from physics to propose a novel second-order optimization scheme LEAD, to address the issue of rotational dynamics in min-max games. Our analysis underlines the advantages of physical approaches in designing novel optimization algorithms for games as well as for traditional optimization tasks.</p>
+<p>  
+It is important to note in this regard that our crafted physical system is <i>a</i> way to model min-max optimization physically. Alternate schemes to perform such modeling can involve other choices of counter-rotational and dissipative forces which can be explored in future work. 
+
+</p>
+</section>
+
+</section>
+
+<footer class="post-footer">
+
+<div class="row">
+<hr class="footnotes-sep">
+</div>
+    
+<hr><div class="row">
+<div class="col"><div class="title">Acknowledgments</div></div>
+<div class="col footnote">
+<p>
+  The authors would like to thank Gauthier Gidel, Maxime Laborde,
+Nicolas Loizou, Hugo Berard, Giancarlo Kerg, Manuela Girotti, Adam Ibrahim,
+Tatjana Chavdarova and Michael Mulligan, for useful
+discussions and feedback. Reyhane Askari Hemmat would also like to thank Mohammad Pezeshki for his
+unwavering support.
+This work is supported by NSERC Discovery Grants
+[RGPIN-2018-04821 and RGPIN-2019-06512], FRQNT
+Young Investigator Startup Grants (2019-NC-253251
+and 2019-NC-257943), a startup grant by IVADO, the
+Canada CIFAR AI chairs program and a Samsung
+grant.
+Reyhane Askari Hemmat also acknowledges the support of
+the Borealis AI Graduate Fellowship and Microsoft Diversity Award. Amartya Mitra
+acknowledges the support of the internship program at
+Mila and the UCR Graduate Fellowship.
+</p>
+</div>
+</div>
+
+
+<hr><div class="row">
+<div class="col"><div class="title">BibTeX citation</div></div>
+<div class="col footnote">
+<div class="code" style="font-size: 13px; margin-left: 15px !important;">
+  @article{hemmat2020lead,<br>
+    title={LEAD: Least-Action Dynamics for Min-Max Optimization},<br>
+    author={Hemmat, Reyhane Askari and Mitra, Amartya and Lajoie, Guillaume and Mitliagkas, Ioannis},<br>
+    journal={arXiv preprint arXiv:2010.13846},<br>
+    year={2020}}
+</div>
+</div>
+</div>
+
+
+<hr><div class="row">
+<div class="col"><div class="title">References</div></div>
+<div class="col footnote">
+<p>[1] Mescheder, Lars, Sebastian Nowozin, and Andreas Geiger. "The numerics of gans." arXiv preprint arXiv:1705.10461 (2017).</p>
+<p>[2] Berry, M. V., and Pragya Shukla. "Curl force dynamics: symmetries, chaos and constants of motion." New Journal of Physics 18.6 (2016): 063018.</p>
+<p>[3] Miyato, Takeru, et al. "Spectral normalization for generative adversarial networks." arXiv preprint arXiv:1802.05957 (2018).</p>
+<p>[4] Gidel, Gauthier, et al. "A variational inequality perspective on generative adversarial networks." arXiv preprint arXiv:1802.10551 (2018).</p>
+<p>[5] Qin, Chongli, et al. "Training Generative Adversarial Networks by Solving Ordinary Differential Equations." arXiv preprint arXiv:2010.15040 (2020).</p>
+</div>
+</div>
+
+
+
+</footer>
+
+</article>
+
+
+  <!-- <script src="basics.js"></script> -->
+  <script src="bundle.js"></script>
+  <!-- // <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script> -->
+
+
+</body></html>
